@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pzy.study.dao.UserDao">
+
+    <resultMap  id="BaseResultMap" type="com.pzy.study.entity.UserEntity">
+        <id property="id"                                       column="id"/>
+        <result property="username"                             column="username"/>
+        <result property="password"                             column="password"/>
+        <result property="salt"                                 column="salt"/>
+        <result property="phoneNo"                              column="phoneNo"/>
+        <result property="mail"                                 column="mail"/>
+        <result property="remark"                               column="remark"/>
+        <result property="deptId"                               column="deptId"/>
+        <result property="status"                               column="status"/>
+        <result property="operator"                             column="operator"/>
+        <result property="operatorTime" jdbcType="TIMESTAMP"    column="operator_time"/>
+        <result property="operatorIp"                           column="operator_ip"/>
+    </resultMap>
+
+    <select id="findUserInfoByName" resultMap="BaseResultMap">
+        select * from sys_user t where  t.username = #{username}
+    </select>
+
+    <select id="selectUsersByDeptId" resultMap="BaseResultMap">
+        select * from sys_user t where  t.deptId = #{deptId}
+    </select>
+
+    <insert id="addUser">
+        insert into sys_user(username, password, salt, phoneNo, mail, remark, deptId, status, operator, operator_time, operator_ip)
+        values (#{username} , #{password} , #{salt} , #{phoneNo} , #{mail} , #{remark} , #{deptId} , '1' , #{operator} ,sysdate() ,#{operatorIp})
+    </insert>
+
+    <update id="updateUser">
+        update sys_user t
+            <set>
+                <if test="userEntity.phoneNo != null and userEntity.phoneNo != ''">
+                    t.phoneNo = #{userEntity.phoneNo},
+                </if>
+                <if test="userEntity.mail != null and userEntity.mail != ''">
+                    t.mail = #{userEntity.mail},
+                </if>
+                <if test="userEntity.deptId != null and userEntity.deptId != ''">
+                    t.deptId = #{userEntity.deptId},
+                </if>
+                <if test="userEntity.operator != null and userEntity.operator != ''">
+                    t.operator = #{userEntity.operator},
+                </if>
+                <if test="userEntity.operatorIp != null and userEntity.operatorIp != ''">
+                    t.operator_ip = #{userEntity.operatorIp},
+                </if>
+                 t.operator_time = sysdate()
+            </set>
+    </update>
+
+    <select id="selectByUserIds" resultMap="BaseResultMap">
+        select  * from sys_user t where t.id in
+        <foreach collection="userIds" item="userId" separator="," open="(" close=")" >
+            #{userId}
+        </foreach>
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from sys_user
+    </select>
+</mapper>
