@@ -43,6 +43,6 @@ public class AclModuleController {
     @RequestMapping(value = "/aclModuleTree" , method = RequestMethod.GET)
     public Result aclModuleTree(){
         List<AclModuleLevelEntity> aclModuleEntities = aclModuleService.aclModuleTree();
-        return Result.success().set("data",aclModuleEntities);
+        return Result.success().set(Result.DATA_KEY , aclModuleEntities);
     }
 }

@@ -98,7 +98,7 @@ public class AclModuleServiceImpl implements AclModuleService {
                     }
                 });
                 //设置当前层级下一层级list
-                entity.setAclModuleLevelList(list);
+                entity.setAclModuleList(list);
                 //遍历下一层级
                 transFormDeptTree(list , nextLevel ,levelDeptMap);
             }

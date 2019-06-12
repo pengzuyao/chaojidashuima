@@ -116,7 +116,7 @@ public class RoleServiceImpl implements RoleService {
                 });
             }
             aclModuleEntity.setAclList(roleAclRelEntities);
-            bindAclWithOrder(aclModuleEntity.getAclModuleLevelList() , aclModuleIdAclMap);
+            bindAclWithOrder(aclModuleEntity.getAclModuleList() , aclModuleIdAclMap);
         }
 
     }

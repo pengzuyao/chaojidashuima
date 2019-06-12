@@ -22,7 +22,7 @@ public class AclModuleLevelEntity extends AclModuleEntity {
 
     private static final long serialVersionUID = 4933137124075776638L;
 
-    private List<AclModuleLevelEntity> aclModuleLevelList = Lists.newArrayList();
+    private List<AclModuleLevelEntity> aclModuleList = Lists.newArrayList();
 
     private List<RoleAclRelEntity> aclList = Lists.newArrayList();
 
