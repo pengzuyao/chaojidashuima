@@ -20,7 +20,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class RoleUserRelEntity implements Serializable {
 
-
     private static final long serialVersionUID = 3660456812777412117L;
 
     private Integer id;  //角色用户id

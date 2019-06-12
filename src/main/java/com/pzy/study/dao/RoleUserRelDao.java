@@ -3,6 +3,7 @@ package com.pzy.study.dao;
 import com.pzy.study.entity.RoleUserRelEntity;
 import com.pzy.study.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface RoleUserRelDao {
 
     List<Integer> selectUserIdsByRoleId(Integer roleId);
 
-    void batchRoleUserInsert(List<RoleUserRelEntity> roleUserRelEntities);
+    void batchRoleUserInsert(@Param("roleUserRelEntities") List<RoleUserRelEntity> roleUserRelEntities);
 }

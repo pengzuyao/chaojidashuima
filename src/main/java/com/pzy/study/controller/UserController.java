@@ -47,8 +47,9 @@ public class UserController {
         return userService.userPageQuery(userVo);
     }
 
-    @RequestMapping(value = "changeUsers" , method = RequestMethod.POST)
+    @RequestMapping(value = "/changeUsers" , method = RequestMethod.POST)
     public Result changeUsers(@RequestParam(value = "roleId" , required = true)Integer roleId , @RequestParam("userIds")String userIds){
-            return null;
+           userService.changeRoleUsers(roleId ,userIds);
+           return Result.success();
     }
 }
