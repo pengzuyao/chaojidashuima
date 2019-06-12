@@ -1,42 +1,33 @@
 package com.pzy.study.entity;
 
+/*
+ * @Description:
+ * @Author: pengzuyao
+ * @Time: 2019/06/12
+ */
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
-import java.io.Serializable;
-import java.security.acl.Acl;
 import java.util.Date;
 
-/**
- * Destription:
- * Author: pengzuyao
- * Time: 2019-05-21
- */
-
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleAclRelEntity extends AclEntity{
+public class RoleAclRelEntity {
 
-    private static final long serialVersionUID = 1894342793919308927L;
+    private Integer id;
 
-    /**
-     * 是否要默认选中
-     */
-    private  boolean checked  = false;
+    private Integer roleId;
 
-    /**
-     * 是否有权限操作
-     */
-    private boolean hasAcl = false;
+    private Integer aclId;
 
+    private String operator;
 
-    public static RoleAclRelEntity adapt(AclEntity aclEntity){
-        RoleAclRelEntity roleAclRelEntity = new RoleAclRelEntity();
-        BeanUtils.copyProperties(aclEntity , roleAclRelEntity);
-        return roleAclRelEntity;
-    }
+    private Date operatorTime;
+
+    private String operatorIp;
 }

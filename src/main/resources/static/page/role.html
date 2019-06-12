@@ -395,7 +395,7 @@
                 return;
             }
             $.ajax({
-                url: "/sys/role/changeAcls.json",
+                url: "/acl/changeAcls",
                 data: {
                     roleId: lastRoleId,
                     aclIds: getTreeSelectedId()

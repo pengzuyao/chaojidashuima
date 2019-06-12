@@ -5,10 +5,12 @@ import com.pzy.study.base.commons.exceptions.WebBaseException;
 import com.pzy.study.base.commons.utils.Result;
 import com.pzy.study.service.AclService;
 import com.pzy.study.vo.AclVo;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -40,5 +42,11 @@ public class AclController {
       @RequestMapping(value = "/aclPageQuery" , method = RequestMethod.GET)
       public Result aclPageQuery(@Valid AclVo aclVO , BindingResult bindingResult){
          return aclService.userPageQuery(aclVO);
+      }
+
+      @RequestMapping(value = "/changeAcls" , method = RequestMethod.POST)
+      public Result changeAcls(@RequestParam(value = "roleId" , required = true)Integer roleId , @RequestParam("aclIds")String aclIds){
+            aclService.changeRoleAcls(roleId , aclIds);
+            return Result.success();
       }
 }

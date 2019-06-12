@@ -1,7 +1,9 @@
 package com.pzy.study.dao;
 
+
 import com.pzy.study.entity.RoleAclRelEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,5 +15,5 @@ import java.util.List;
 @Mapper
 public interface RoleAclRelDao {
 
-
+   void batchInsert(@Param("roleAclList") List<RoleAclRelEntity> roleAclList);
 }

@@ -52,4 +52,9 @@
         SELECT * FROM sys_acl T WHERE T.acl_module_id = #{aclModuleId}
     </select>
 
+    <delete id="deleteRoleAclRelByRoleId">
+        delete from sys_role_acl_rel where role_id = #{roleId}
+    </delete>
+
+
 </mapper>

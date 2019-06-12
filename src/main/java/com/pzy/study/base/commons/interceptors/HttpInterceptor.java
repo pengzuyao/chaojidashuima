@@ -1,5 +1,6 @@
 package com.pzy.study.base.commons.interceptors;
 
+import com.alibaba.fastjson.JSON;
 import com.pzy.study.base.commons.utils.RequestHolder;
 import com.pzy.study.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +27,11 @@ public class HttpInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String url = request.getRequestURI();
         Map<String, String[]> parameterMap = request.getParameterMap();
-        log.info("request start. url:{} , params:{}" ,url ,parameterMap);
+        log.info("request-start【 url:{} , params:{} 】" ,url , JSON.toJSONString(parameterMap));
         request.setAttribute(START_TIME ,System.currentTimeMillis());
         UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
         if (null == userEntity){
-//            String path = "login.html";
-//            response.sendRedirect("path");
+            log.info("回话超时，请重新登录！");
             return false;
         }
         RequestHolder.add(userEntity);
@@ -42,7 +42,7 @@ public class HttpInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         long startTime = (long) request.getAttribute(START_TIME);
-        log.info("request end. time:{}" , System.currentTimeMillis() - startTime);
+        log.info("request---end【 time:{}ms 】" , System.currentTimeMillis() - startTime);
         removeCurrentThreadLocalInfo();
     }
 

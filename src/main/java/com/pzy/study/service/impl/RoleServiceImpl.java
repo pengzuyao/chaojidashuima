@@ -75,16 +75,16 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<AclModuleLevelEntity> roleAclTree(Integer roleId){
         //1、当前用户已分配的权限点
-        List<RoleAclRelEntity> userAcls = getCurrentUserAclList();
+        List<RoleAclEntity> userAcls = getCurrentUserAclList();
         //2、当前角色分配的权限点
         List<AclEntity> roleAcls = aclDao.selectAclsByRoles(Collections.singletonList(roleId));
-        List<Integer> userAclIds = userAcls.stream().map(roleAclRelEntity -> roleAclRelEntity.getId()).collect(Collectors.toList());
-        List<Integer> roleAclIds = roleAcls.stream().map(roleAclRelEntity -> roleAclRelEntity.getId()).collect(Collectors.toList());
+        List<Integer> userAclIds = userAcls.stream().map(roleAclEntity -> roleAclEntity.getId()).collect(Collectors.toList());
+        List<Integer> roleAclIds = roleAcls.stream().map(roleAclEntity -> roleAclEntity.getId()).collect(Collectors.toList());
         //当前系统所有权限点
         List<AclEntity> collect = aclDao.selectAll();
-        List<RoleAclRelEntity> roleAclRelEntities = Lists.newArrayList();
+        List<RoleAclEntity> roleAclRelEntities = Lists.newArrayList();
         collect.forEach(roleAclRelEntity -> {
-            RoleAclRelEntity adapt = RoleAclRelEntity.adapt(roleAclRelEntity);
+            RoleAclEntity adapt = RoleAclEntity.adapt(roleAclRelEntity);
             if (userAclIds.contains(adapt.getId())){adapt.setHasAcl(true);}
             if (roleAclIds.contains(adapt.getId())){adapt.setChecked(true);}
             roleAclRelEntities.add(adapt);
@@ -93,24 +93,24 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
-    List<AclModuleLevelEntity>  aclListToTree(List<RoleAclRelEntity> aclList){
+    List<AclModuleLevelEntity>  aclListToTree(List<RoleAclEntity> aclList){
         if (aclList.isEmpty()){return Lists.newArrayList();}
         List<AclModuleLevelEntity> aclModuleEntities = aclModuleService.aclModuleTree();
-        Map<Integer, List<RoleAclRelEntity>> aclModuleIdAclMap = aclList.stream().collect(Collectors.groupingBy(roleAclRelEntity -> roleAclRelEntity.getAclModuleId()));
+        Map<Integer, List<RoleAclEntity>> aclModuleIdAclMap = aclList.stream().collect(Collectors.groupingBy(roleAclRelEntity -> roleAclRelEntity.getAclModuleId()));
         bindAclWithOrder(aclModuleEntities , aclModuleIdAclMap);
         return aclModuleEntities;
     }
 
-    private void bindAclWithOrder(List<AclModuleLevelEntity> aclModuleEntities, Map<Integer, List<RoleAclRelEntity>> aclModuleIdAclMap) {
+    private void bindAclWithOrder(List<AclModuleLevelEntity> aclModuleEntities, Map<Integer, List<RoleAclEntity>> aclModuleIdAclMap) {
             if (aclModuleEntities.isEmpty()){
                 return;
             }
         for (AclModuleLevelEntity aclModuleEntity : aclModuleEntities) {
-            List<RoleAclRelEntity> roleAclRelEntities = aclModuleIdAclMap.get(aclModuleEntity.getId());
+            List<RoleAclEntity> roleAclRelEntities = aclModuleIdAclMap.get(aclModuleEntity.getId());
             if (CollectionUtils.isNotEmpty(roleAclRelEntities)){
-                Collections.sort(roleAclRelEntities, new Comparator<RoleAclRelEntity>() {
+                Collections.sort(roleAclRelEntities, new Comparator<RoleAclEntity>() {
                     @Override
-                    public int compare(RoleAclRelEntity o1, RoleAclRelEntity o2) {
+                    public int compare(RoleAclEntity o1, RoleAclEntity o2) {
                         return o1.getSeq() - o2.getSeq();
                     }
                 });
@@ -123,13 +123,13 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public List<RoleAclRelEntity> getCurrentUserAclList() {
+    public List<RoleAclEntity> getCurrentUserAclList() {
         Integer userId = RequestHolder.getCurrentUser().getId();
         return getUserAclList(userId);
     }
 
-    public List<RoleAclRelEntity> getUserAclList(Integer userId){
-        List<RoleAclRelEntity> roleAclRelEntities = Lists.newArrayList();
+    public List<RoleAclEntity> getUserAclList(Integer userId){
+        List<RoleAclEntity> roleAclRelEntities = Lists.newArrayList();
         if (isSuperAdmin()){
             List<AclEntity> aclEntities = aclDao.selectAll();
             adapt(roleAclRelEntities ,aclEntities);
@@ -144,9 +144,9 @@ public class RoleServiceImpl implements RoleService {
         return roleAclRelEntities;
     }
 
-    public void adapt(List<RoleAclRelEntity> roleAclRelEntities , List<AclEntity> aclEntities){
+    public void adapt(List<RoleAclEntity> roleAclRelEntities , List<AclEntity> aclEntities){
         aclEntities.forEach(aclEntity -> {
-            RoleAclRelEntity adapt = RoleAclRelEntity.adapt(aclEntity);
+            RoleAclEntity adapt = RoleAclEntity.adapt(aclEntity);
             roleAclRelEntities.add(adapt);
         });
     }

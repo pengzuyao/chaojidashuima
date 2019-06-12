@@ -1,9 +1,6 @@
 package com.pzy.study.service;
 
-import com.pzy.study.entity.AclEntity;
-import com.pzy.study.entity.AclModuleLevelEntity;
-import com.pzy.study.entity.RoleAclRelEntity;
-import com.pzy.study.entity.RoleEntity;
+import com.pzy.study.entity.*;
 import com.pzy.study.vo.RoleVo;
 
 import java.util.List;
@@ -21,7 +18,7 @@ public interface RoleService {
 
     List<RoleEntity> getAll();
 
-    List<RoleAclRelEntity> getCurrentUserAclList();
+    List<RoleAclEntity> getCurrentUserAclList();
 
     List<AclModuleLevelEntity> roleAclTree(Integer roleId);
 }

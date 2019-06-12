@@ -1,7 +1,6 @@
 package com.pzy.study.dao;
 
 import com.pzy.study.entity.AclEntity;
-import com.pzy.study.entity.RoleAclRelEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,5 +25,7 @@ public interface AclDao {
     List<AclEntity> selectAclsByRoles(@Param("roleIds") List<Integer> roleIds);
 
     List<AclEntity> selectAclsByAclModuleId(Integer aclModuleId);
+
+    void deleteRoleAclRelByRoleId(Integer roleId);
 
 }

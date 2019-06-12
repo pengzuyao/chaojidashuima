@@ -14,5 +14,7 @@ public interface AclService {
 
     void update(AclVo aclVO);
 
-    public Result userPageQuery(AclVo aclVO);
+    Result userPageQuery(AclVo aclVO);
+
+    void changeRoleAcls(Integer roleId , String aclIds);
 }

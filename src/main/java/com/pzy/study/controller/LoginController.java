@@ -26,6 +26,7 @@ public class LoginController {
     public String login(@Valid UserEntity userEntity , HttpServletRequest request, HttpServletResponse response, BindingResult bindingResult){
         //登录成功
         request.getSession().setAttribute("user" ,userEntity);
+        request.getSession().setMaxInactiveInterval(1800);
 //        RequestHolder.add(userEntity);
 //        RequestHolder.add(request);
         return "redirect:/water-cup/main";
