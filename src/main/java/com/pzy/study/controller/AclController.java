@@ -41,7 +41,7 @@ public class AclController {
 
       @RequestMapping(value = "/aclPageQuery" , method = RequestMethod.GET)
       public Result aclPageQuery(@Valid AclVo aclVO , BindingResult bindingResult){
-         return aclService.userPageQuery(aclVO);
+         return aclService.pageQueryUser(aclVO);
       }
 
       @RequestMapping(value = "/changeAcls" , method = RequestMethod.POST)

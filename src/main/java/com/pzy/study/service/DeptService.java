@@ -14,7 +14,7 @@ public interface DeptService {
 
     public  void saveDept(DeptVo deptVO);
 
-    public List<DeptEntity> deptTree();
+    public List<DeptEntity> getDeptTree();
 
     public void updateDept(DeptVo deptVO);
 

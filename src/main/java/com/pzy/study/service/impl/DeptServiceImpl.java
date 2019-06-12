@@ -54,7 +54,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<DeptEntity> deptTree() {
+    public List<DeptEntity> getDeptTree() {
         List<DeptEntity> deptList = deptDAO.selectAllDept();
         return deptListToTree(deptList);
     }

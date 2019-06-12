@@ -4,6 +4,8 @@ package com.pzy.study.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.pzy.study.base.commons.enums.WebBaseExceptionEnum;
+import com.pzy.study.base.commons.exceptions.WebBaseException;
 import com.pzy.study.base.commons.utils.*;
 import com.pzy.study.dao.RoleUserRelDao;
 import com.pzy.study.dao.UserDao;
@@ -88,8 +90,7 @@ public class UserServiceImpl implements UserService {
             RoleUserRelEntity build = RoleUserRelEntity.builder().
                     roleId(roleId).
                     userId(integer).
-                    operator(RequestHolder.getCurrentUser().
-                            getUsername()).
+                    operator(RequestHolder.getCurrentUser().getUsername()).
                     operatorIp(IpAddressUtil.getIpAdrress(RequestHolder.getCurrentRequest())).
                     build();
             list.add(build);

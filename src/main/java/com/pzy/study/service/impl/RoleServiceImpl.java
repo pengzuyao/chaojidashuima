@@ -100,7 +100,7 @@ public class RoleServiceImpl implements RoleService {
 
     List<AclModuleLevelEntity>  aclListToTree(List<RoleAclEntity> aclList){
         if (aclList.isEmpty()){return Lists.newArrayList();}
-        List<AclModuleLevelEntity> aclModuleEntities = aclModuleService.aclModuleTree();
+        List<AclModuleLevelEntity> aclModuleEntities = aclModuleService.getAclModuleTree();
         Map<Integer, List<RoleAclEntity>> aclModuleIdAclMap = aclList.stream().collect(Collectors.groupingBy(roleAclRelEntity -> roleAclRelEntity.getAclModuleId()));
         bindAclWithOrder(aclModuleEntities , aclModuleIdAclMap);
         return aclModuleEntities;

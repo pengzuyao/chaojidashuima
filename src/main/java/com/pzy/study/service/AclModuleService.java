@@ -15,7 +15,7 @@ public interface AclModuleService {
 
     public  void saveAclModule(AclModuleVo aclModuleVO);
 
-    public List<AclModuleLevelEntity> aclModuleTree();
+    public List<AclModuleLevelEntity> getAclModuleTree();
 
     public void updateaclModule(AclModuleVo aclModuleVO);
 }

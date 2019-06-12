@@ -35,7 +35,7 @@ public class DeptController {
 
     @RequestMapping(value = "/deptTree" , method = RequestMethod.GET)
     public Result deptTree(){
-        List<DeptEntity> list = deptService.deptTree();
+        List<DeptEntity> list = deptService.getDeptTree();
         return Result.success().set("data" , list);
     }
 

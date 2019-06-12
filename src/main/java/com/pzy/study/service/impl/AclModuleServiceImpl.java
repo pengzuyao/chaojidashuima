@@ -59,7 +59,7 @@ public class AclModuleServiceImpl implements AclModuleService {
     }
 
     @Override
-    public List<AclModuleLevelEntity> aclModuleTree() {
+    public List<AclModuleLevelEntity> getAclModuleTree() {
         List<AclModuleEntity> aclModuleList= aclModuleDAO.selectAllAclModule();
         List<AclModuleLevelEntity> aclModuleLevelEntities = Lists.newArrayList();
         aclModuleList.forEach(aclModuleEntity -> {

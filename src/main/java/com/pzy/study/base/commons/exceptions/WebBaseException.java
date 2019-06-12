@@ -16,6 +16,10 @@ public class WebBaseException extends RuntimeException {
         this.webBaseExceptionEnum = webBaseExceptionEnum;
     }
 
+    public WebBaseException(WebBaseExceptionEnum webBaseExceptionEnum) {
+        this.webBaseExceptionEnum = webBaseExceptionEnum;
+    }
+
     public WebBaseExceptionEnum getWebBaseExceptionEnum() {
         return webBaseExceptionEnum;
     }

@@ -80,7 +80,7 @@ public class AclServiceImpl implements AclService {
     }
 
     @Override
-    public Result userPageQuery(AclVo aclVO) {
+    public Result pageQueryUser(AclVo aclVO) {
         PageHelper.startPage(aclVO.getPageNo() , aclVO.getPageSize());
         List<AclEntity> aclEntities = Lists.newArrayList();
         aclEntities = aclDAO.selectAclsByAclModuleId(aclVO.getAclModuleId());
