@@ -1,7 +1,6 @@
 package com.pzy.study.service;
 
 
-import com.github.pagehelper.PageInfo;
 import com.pzy.study.base.commons.utils.Result;
 import com.pzy.study.entity.UserEntity;
 import com.pzy.study.vo.UserVo;
@@ -20,7 +19,7 @@ public interface UserService {
 
     public void update(UserVo userVO);
 
-    Result findRoleUsers(Integer roleId);
-
     Result userPageQuery(UserVo userVO);
+
+    void changeRoleUsers(Integer roleId ,String userIds);
  }

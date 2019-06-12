@@ -4,18 +4,17 @@ package com.pzy.study.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.pzy.study.base.commons.utils.IpAddressUtil;
-import com.pzy.study.base.commons.utils.PasswordHelper;
-import com.pzy.study.base.commons.utils.RequestHolder;
-import com.pzy.study.base.commons.utils.Result;
+import com.pzy.study.base.commons.utils.*;
 import com.pzy.study.dao.RoleUserRelDao;
 import com.pzy.study.dao.UserDao;
+import com.pzy.study.entity.RoleUserRelEntity;
 import com.pzy.study.entity.UserEntity;
 import com.pzy.study.service.UserService;
 import com.pzy.study.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,14 +77,23 @@ public class UserServiceImpl implements UserService {
         userDAO.updateUser(userEntity);
     }
 
+    @Transactional
     @Override
-    public Result findRoleUsers(Integer roleId) {
-        List<UserEntity> allUsers = userDAO.selectAll();
-        List<Integer> userIds = roleUserRelDao.selectUserIdsByRoleId(roleId);
-        List<UserEntity> selectUsers = userDAO.selectByUserIds(userIds);
-        List<Integer> selectUserIds = selectUsers.stream().map(userEntity -> userEntity.getId()).collect(Collectors.toList());
-        List<UserEntity> unSelectUsers = allUsers.stream().filter(userEntity -> !selectUserIds.contains(userEntity.getId())).collect(Collectors.toList());
-        return Result.success().set("select" ,selectUsers).set("unselect" ,unSelectUsers);
+    public void changeRoleUsers(Integer roleId, String userIds) {
+        userDAO.deleteRoleUserRelByRoleId(roleId);
+        List<Integer> userList = Lists.newArrayList();
+        StringHelper.stringToIntegerList(userIds , userList);
+        List<RoleUserRelEntity> list = Lists.newArrayList();
+        for (Integer integer : userList) {
+            RoleUserRelEntity build = RoleUserRelEntity.builder().
+                    roleId(roleId).
+                    userId(integer).
+                    operator(RequestHolder.getCurrentUser().
+                            getUsername()).
+                    operatorIp(IpAddressUtil.getIpAdrress(RequestHolder.getCurrentRequest())).
+                    build();
+            list.add(build);
+        }
+        roleUserRelDao.batchRoleUserInsert(list);
     }
-
 }

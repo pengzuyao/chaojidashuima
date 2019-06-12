@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Destription:
@@ -48,8 +49,9 @@ public class RoleController {
         return Result.success().set(Result.DATA_KEY,aclModuleLevelEntities);
     }
 
-    @RequestMapping(value = "roleUser" ,method = RequestMethod.GET)
-    public List<UserEntity> RoleUser(@Param(value = "roleId") Integer roleId){
-        return null;
+    @RequestMapping(value = "roleUsers" ,method = RequestMethod.POST)
+    public Result RoleUser(@Param(value = "roleId") Integer roleId){
+        Map<String, List<UserEntity>> stringListMap = roleService.roleUsers(roleId);
+        return Result.success().set(Result.DATA_KEY , stringListMap);
     }
 }

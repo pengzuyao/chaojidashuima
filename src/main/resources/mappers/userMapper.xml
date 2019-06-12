@@ -63,4 +63,8 @@
     <select id="selectAll" resultMap="BaseResultMap">
         select * from sys_user
     </select>
+
+    <delete id="deleteRoleUserRelByRoleId">
+        delete from sys_role_user_rel where role_id = #{roleId}
+    </delete>
 </mapper>

@@ -1,11 +1,13 @@
 package com.pzy.study.service.impl;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.pzy.study.base.commons.utils.IpAddressUtil;
 import com.pzy.study.base.commons.utils.RequestHolder;
 import com.pzy.study.dao.AclDao;
 import com.pzy.study.dao.RoleDao;
 import com.pzy.study.dao.RoleUserRelDao;
+import com.pzy.study.dao.UserDao;
 import com.pzy.study.entity.*;
 import com.pzy.study.service.AclModuleService;
 import com.pzy.study.service.RoleService;
@@ -33,6 +35,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private AclDao aclDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private RoleUserRelDao roleUserRelDao;
@@ -153,5 +158,24 @@ public class RoleServiceImpl implements RoleService {
 
     private boolean isSuperAdmin() {
         return true;
+    }
+
+    @Override
+    public Map<String, List<UserEntity>> roleUsers(Integer roleId) {
+        List<UserEntity> allUsers = userDao.selectAll();
+        List<Integer> userIds = roleUserRelDao.selectUserIdsByRoleId(roleId);
+        List<UserEntity> selectUsers = Lists.newArrayList();
+        Map<String, List<UserEntity>> map = Maps.newHashMap();
+        if (CollectionUtils.isEmpty(userIds)){
+            map.put("selected" , selectUsers);
+            map.put("unselected" , allUsers);
+            return map;
+        }
+        selectUsers = userDao.selectByUserIds(userIds);
+        List<Integer> selectUserIds = selectUsers.stream().map(userEntity -> userEntity.getId()).collect(Collectors.toList());
+        List<UserEntity> unSelectUsers = allUsers.stream().filter(userEntity -> !selectUserIds.contains(userEntity.getId())).collect(Collectors.toList());
+        map.put("selected" , selectUsers);
+        map.put("unselected" , unSelectUsers);
+        return map;
     }
 }

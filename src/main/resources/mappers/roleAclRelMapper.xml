@@ -12,7 +12,7 @@
         <result property="operatorIp"                           column="operator_ip"/>
     </resultMap>
 
-    <insert id="batchInsert" parameterType="map">
+    <insert id="batchRoleAclInsert" parameterType="map">
         insert into sys_role_acl_rel (role_id, acl_id, operator, operator_time, operator_ip)
         values
         <foreach collection = "roleAclList" item = "roleAcl" separator=",">

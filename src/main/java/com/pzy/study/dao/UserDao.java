@@ -2,6 +2,7 @@ package com.pzy.study.dao;
 
 import com.pzy.study.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public interface UserDao {
 
     void updateUser(UserEntity userEntity);
 
-    List<UserEntity> selectByUserIds(List<Integer> userIds);
+    List<UserEntity> selectByUserIds(@Param("userIds")List<Integer> userIds);
 
     List<UserEntity> selectAll();
 
-
+    void deleteRoleUserRelByRoleId(Integer roleId);
 }

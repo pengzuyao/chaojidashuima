@@ -9,6 +9,7 @@ import com.pzy.study.base.commons.exceptions.WebBaseException;
 import com.pzy.study.base.commons.utils.IpAddressUtil;
 import com.pzy.study.base.commons.utils.RequestHolder;
 import com.pzy.study.base.commons.utils.Result;
+import com.pzy.study.base.commons.utils.StringHelper;
 import com.pzy.study.dao.AclDao;
 import com.pzy.study.dao.RoleAclRelDao;
 import com.pzy.study.entity.AclEntity;
@@ -94,7 +95,7 @@ public class AclServiceImpl implements AclService {
                 return;
             }
             List<Integer> aclList = Lists.newArrayList();
-            stringToIntegerList(aclIds ,aclList);
+            StringHelper.stringToIntegerList(aclIds ,aclList);
             List<RoleAclRelEntity> list = Lists.newArrayList();
             for (Integer aclId : aclList) {
                 RoleAclRelEntity build = RoleAclRelEntity.builder().
@@ -105,19 +106,9 @@ public class AclServiceImpl implements AclService {
                         build();
                 list.add(build);
             }
-        roleAclRelDao.batchInsert(list);
+        roleAclRelDao.batchRoleAclInsert(list);
     }
 
-    private void stringToIntegerList(String aclIds, List<Integer> aclList) {
-        try {
-            String[] split = aclIds.split(",");
-            for (int i = 0; i < split.length; i++) {
-                aclList.add(Integer.valueOf(split[i]));
-            }
-        }catch (Exception e){
-            throw  new WebBaseException("权限字符串转换异常" , WebBaseExceptionEnum.request_prarms);
-        }
 
-    }
 
 }

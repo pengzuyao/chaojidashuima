@@ -20,4 +20,12 @@
         select t.user_id from sys_role_user_rel t where  t.role_id = #{roleId}
     </select>
 
+    <insert id="batchRoleUserInsert" >
+        insert into sys_role_user_rel(role_id ,user_id ,operator ,operator_time ,operator_ip)
+        values
+        <foreach collection="roleUserRelEntities" index="roleUserRelEntity"  separator=",">
+            (#{roleId} ,#{userId} ,#{operator} ,sysdata() ,#{operatorIp})
+        </foreach>
+    </insert>
+
 </mapper>

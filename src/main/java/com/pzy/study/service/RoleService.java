@@ -4,6 +4,7 @@ import com.pzy.study.entity.*;
 import com.pzy.study.vo.RoleVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Destription:
@@ -21,4 +22,6 @@ public interface RoleService {
     List<RoleAclEntity> getCurrentUserAclList();
 
     List<AclModuleLevelEntity> roleAclTree(Integer roleId);
+
+    Map<String, List<UserEntity>> roleUsers(Integer roleId);
 }

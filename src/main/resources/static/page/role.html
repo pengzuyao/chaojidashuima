@@ -446,17 +446,16 @@
 
         function loadRoleUser(selectedRoleId) {
             $.ajax({
-                url: "/sys/role/users.json",
+                url: "/role/roleUsers",
                 data: {
                     roleId: selectedRoleId
                 },
                 type: 'POST',
                 success: function (result) {
-                    if (result.ret) {
+                    if (result.code == 200) {
                         var renderedSelect = Mustache.render(selectedUsersTemplate, {userList: result.data.selected});
                         var renderedUnSelect = Mustache.render(unSelectedUsersTemplate, {userList: result.data.unselected});
                         $("#roleUserList").html(renderedSelect + renderedUnSelect);
-
                         if(!hasMultiSelect) {
                             $('select[name="roleUserList"]').bootstrapDualListbox({
                                 showFilterInputs: false,
@@ -481,7 +480,7 @@
                 return;
             }
             $.ajax({
-                url: "/sys/role/changeUsers.json",
+                url: "/user/changeUsers",
                 data: {
                     roleId: lastRoleId,
                     userIds: $("#roleUserList").val() ? $("#roleUserList").val().join(",") : ''

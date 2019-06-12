@@ -46,4 +46,9 @@ public class UserController {
     public Result userPageQuery(UserVo userVo){
         return userService.userPageQuery(userVo);
     }
+
+    @RequestMapping(value = "changeUsers" , method = RequestMethod.POST)
+    public Result changeUsers(@RequestParam(value = "roleId" , required = true)Integer roleId , @RequestParam("userIds")String userIds){
+            return null;
+    }
 }

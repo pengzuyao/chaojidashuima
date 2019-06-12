@@ -23,11 +23,11 @@ public class RoleUserRelEntity implements Serializable {
 
     private static final long serialVersionUID = 3660456812777412117L;
 
-    private String id;  //角色用户id
+    private Integer id;  //角色用户id
 
-    private String roleId;  //角色id
+    private Integer roleId;  //角色id
 
-    private String userId;  //用户id
+    private Integer userId;  //用户id
 
     private String operator;
 

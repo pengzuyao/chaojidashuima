@@ -15,5 +15,5 @@ import java.util.List;
 @Mapper
 public interface RoleAclRelDao {
 
-   void batchInsert(@Param("roleAclList") List<RoleAclRelEntity> roleAclList);
+   void batchRoleAclInsert(@Param("roleAclList") List<RoleAclRelEntity> roleAclList);
 }
