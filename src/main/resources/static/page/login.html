@@ -32,5 +32,11 @@
 </div>
 
 <script src="/js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript">
+    window.onload = index;
+    function index(){
+        if(self!=top){top.location=self.location;}
+    }
+</script>
 </body>
 </html>
