@@ -4,14 +4,12 @@ import com.pzy.study.base.commons.enums.WebBaseExceptionEnum;
 import com.pzy.study.base.commons.exceptions.WebBaseException;
 import com.pzy.study.base.commons.utils.Result;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ValidationException;
 
 /**
  * Destription:
@@ -20,7 +18,6 @@ import javax.validation.ValidationException;
  */
 @ControllerAdvice
 @RestController
-@Order(100)
 public class AopWebBaseExceptionController {
 
     public static final String CODE = "500";
