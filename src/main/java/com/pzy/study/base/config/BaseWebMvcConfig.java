@@ -36,7 +36,7 @@ public class BaseWebMvcConfig extends WebMvcConfigurationSupport {
                 addPathPatterns("/log/**").
                 addPathPatterns("/role/**").
                 addPathPatterns("/user/**").
-                addPathPatterns("/page/*.html").
+                addPathPatterns("/page/**").
                 addPathPatterns("/**").
                 excludePathPatterns("/assets/**").
                 excludePathPatterns("/bootstrap3.3.5/**").

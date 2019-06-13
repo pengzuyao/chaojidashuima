@@ -53,7 +53,7 @@ public class LoginController {
     @Autowired
     private AclService aclService;
 
-    @RequestMapping(value = "/sys/login" ,method = RequestMethod.POST)
+    @RequestMapping(value = "/sys/login")
     public void login(@Valid UserEntity userEntity , HttpServletRequest request, HttpServletResponse response, BindingResult bindingResult){
         if (StringUtils.isAnyBlank(userEntity.getUsername() ,userEntity.getPassword())){
             throw new LoginException(LoginExceptionEnum.request_prarm);
@@ -87,10 +87,8 @@ public class LoginController {
         log.info("{}" ,token);
         Cookie cookieName = new Cookie("userName" ,userEntity.getUsername());
         Cookie cookieToken = new Cookie(userEntity.getUsername() ,token);
-        //Cookie cookieUserInfo = new Cookie(token , JSON.toJSONString(userEntity));
         response.addCookie(cookieName);
         response.addCookie(cookieToken);
-        //response.addCookie(cookieUserInfo);
         try {
             response.sendRedirect("/water-cup/main");
         } catch (IOException e) {
@@ -109,15 +107,5 @@ public class LoginController {
         return "login";
     }
 
-
-//    public static void main(String[] args) {
-//        String content = "aes加密算法";
-//        String key = "zZ4OIGIXbqcbeDEBY4xJnA==";
-//
-//        String encrypt = AESUtils.encrypt(key, content);
-//        System.out.println(encrypt);
-//        String decrypt = AESUtils.decrypt(key, encrypt);
-//        System.out.println(decrypt);
-//    }
-
+    
 }
