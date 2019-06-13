@@ -36,9 +36,18 @@ public class BaseWebMvcConfig extends WebMvcConfigurationSupport {
                 addPathPatterns("/log/**").
                 addPathPatterns("/role/**").
                 addPathPatterns("/user/**").
-                addPathPatterns("/page/**").
+                addPathPatterns("/page/*.html").
+                excludePathPatterns("/assets/**").
+                excludePathPatterns("/bootstrap3.3.5/**").
+                excludePathPatterns("/common/**").
+                excludePathPatterns("/css/**").
+                excludePathPatterns("/js/**").
+                excludePathPatterns("/ztree/**").
+                excludePathPatterns("/favicon.ico").
+                excludePathPatterns("/water-cup/login").
+                excludePathPatterns("/water-cup/sys/login").
+                excludePathPatterns("/page/exception.html").
                 excludePathPatterns("/page/login.html");
-
         super.addInterceptors(registry);
     }
 }

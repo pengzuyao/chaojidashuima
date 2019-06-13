@@ -23,17 +23,20 @@ import javax.validation.ValidationException;
 @Order(100)
 public class AopWebBaseExceptionController {
 
+    public static final String CODE = "500";
+    public static final String SYSTEM_ERROR = "SYSTEM ERROR";
+
     @ExceptionHandler(Exception.class)
     public Result errorHandler(Exception e, HttpServletRequest request , HttpServletResponse response){
             e.printStackTrace();
         if (e instanceof WebBaseException){
             WebBaseException webBaseException = (WebBaseException) e;
             WebBaseExceptionEnum webBaseExceptionEnum = webBaseException.getWebBaseExceptionEnum();
-            String code = StringUtils.isBlank(webBaseExceptionEnum.getCode()) ? WebBaseExceptionHandler.CODE : webBaseExceptionEnum.getCode();
+            String code = StringUtils.isBlank(webBaseExceptionEnum.getCode()) ? CODE : webBaseExceptionEnum.getCode();
             String message = StringUtils.isNotBlank(e.getMessage())? e.getMessage() : webBaseExceptionEnum.getDesc();
             return Result.ok().set("path", request.getRequestURI()).set("code", code).set("message", message);
         }else {
-            String message = StringUtils.isNotBlank(e.getMessage())? e.getMessage() : WebBaseExceptionController.SYSTEM_ERROR;
+            String message = StringUtils.isNotBlank(e.getMessage())? e.getMessage() :SYSTEM_ERROR;
             return Result.ok().set("path", request.getRequestURI()).set("code",response.getStatus()).set("message", message);
         }
     }

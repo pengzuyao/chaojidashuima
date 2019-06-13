@@ -1,5 +1,9 @@
 package com.pzy.study.base.commons.handlers;
 
+import com.pzy.study.base.commons.enums.WebBaseExceptionEnum;
+import com.pzy.study.base.commons.exceptions.WebBaseException;
+import com.pzy.study.base.commons.utils.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 2019-05-20
  */
 
-@Configuration
+/*@Configuration
 public class WebBaseExceptionHandler implements HandlerExceptionResolver {
 
     public static final String CODE = "500";
@@ -24,14 +28,5 @@ public class WebBaseExceptionHandler implements HandlerExceptionResolver {
             request.setAttribute(ERROR_PATH , request.getRequestURI());
             request.setAttribute(ERROR_EXCEPTION , ex);
             return null;
-        /*if (ex instanceof WebBaseException){
-            WebBaseException webBaseException = (WebBaseException) ex;
-            WebBaseExceptionEnum webBaseExceptionEnum = webBaseException.getWebBaseExceptionEnum();
-            String code = StringUtils.isBlank(webBaseExceptionEnum.getCode()) ? CODE : webBaseExceptionEnum.getCode();
-            String message = StringUtils.isBlank(webBaseExceptionEnum.getDesc())? ex.getMessage() : webBaseExceptionEnum.getDesc();
-            Result set = Result.ok().set("path", path).set("code", code).set("message", message);
-            ModelAndView mv = new ModelAndView("error" ,set);
-            return mv;
-        }*/
     }
-}
+}*/

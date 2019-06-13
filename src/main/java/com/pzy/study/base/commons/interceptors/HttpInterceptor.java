@@ -34,7 +34,8 @@ public class HttpInterceptor implements HandlerInterceptor {
         request.setAttribute(START_TIME ,System.currentTimeMillis());
         UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
         if (null == userEntity){
-            throw new LoginException(LoginExceptionEnum.request_login);
+            response.sendRedirect("/water-cup/login");
+            return false;
         }
         RequestHolder.add(userEntity);
         RequestHolder.add(request);
