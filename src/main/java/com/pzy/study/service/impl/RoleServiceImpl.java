@@ -178,4 +178,13 @@ public class RoleServiceImpl implements RoleService {
         map.put("unselected" , unSelectUsers);
         return map;
     }
+
+    @Override
+    public List<RoleEntity> findRolesByUserId(Integer userId) {
+        List<Integer> list = roleUserRelDao.selectRoleIdsByUserId(userId);
+        if (list.isEmpty()){
+            return Lists.newArrayList();
+        }
+        return roleDao.getRoleListByRoleIds(list);
+    }
 }

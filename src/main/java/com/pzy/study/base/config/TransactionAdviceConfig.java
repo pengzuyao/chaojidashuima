@@ -2,6 +2,7 @@ package com.pzy.study.base.config;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,8 +58,14 @@ public class TransactionAdviceConfig {
         txMap.put("*", requiredTx);
         source.setNameMap(txMap);
         return new TransactionInterceptor(transactionManager, source);
-
     }
 
-
+    @Bean
+    public BeanNameAutoProxyCreator transactionAutoProxy() {
+        BeanNameAutoProxyCreator autoProxy = new BeanNameAutoProxyCreator();
+        autoProxy.setProxyTargetClass(true);
+        autoProxy.setBeanNames("*ServiceImpl");
+        autoProxy.setInterceptorNames("txAdvice");
+        return autoProxy;
+    }
 }

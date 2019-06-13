@@ -29,12 +29,16 @@ public class BaseWebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(httpInterceptor()).
+                addPathPatterns("/water-cup/main").
                 addPathPatterns("/acl/**").
                 addPathPatterns("/aclModule/**").
                 addPathPatterns("/dept/**").
                 addPathPatterns("/log/**").
                 addPathPatterns("/role/**").
-                addPathPatterns("/user/**");
+                addPathPatterns("/user/**").
+                addPathPatterns("/page/**").
+                excludePathPatterns("/page/login.html");
+
         super.addInterceptors(registry);
     }
 }

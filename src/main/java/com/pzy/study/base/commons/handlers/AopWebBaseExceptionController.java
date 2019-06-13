@@ -20,6 +20,7 @@ import javax.validation.ValidationException;
  */
 @ControllerAdvice
 @RestController
+@Order(100)
 public class AopWebBaseExceptionController {
 
     @ExceptionHandler(Exception.class)

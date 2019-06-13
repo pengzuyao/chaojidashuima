@@ -9,11 +9,13 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum  LoginExceptionEnum {
 
+    request_login("400" , "请登录"),
     request_prarm("401" , "用户名或密码为空"),
     request_unVaild("402" , "用户名密码不匹配"),
     request_overtime("403" , "超时，请重新登录"),
     request_noRoles("404" , "角色信息为空"),
-    request_noAcls("405" , "权限信息为空");
+    request_noAcls("405" , "权限信息为空"),
+    request_noUser("406 " , "用户信息不存在");
 
 
 

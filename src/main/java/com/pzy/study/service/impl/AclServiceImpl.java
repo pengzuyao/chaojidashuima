@@ -80,7 +80,7 @@ public class AclServiceImpl implements AclService {
     }
 
     @Override
-    public Result pageQueryUser(AclVo aclVO) {
+    public Result pageQueryAcl(AclVo aclVO) {
         PageHelper.startPage(aclVO.getPageNo() , aclVO.getPageSize());
         List<AclEntity> aclEntities = Lists.newArrayList();
         aclEntities = aclDAO.selectAclsByAclModuleId(aclVO.getAclModuleId());
@@ -110,5 +110,8 @@ public class AclServiceImpl implements AclService {
     }
 
 
-
+    @Override
+    public List<AclEntity> findAclsByRoleIds(List<Integer> roleIds) {
+        return aclDAO.selectAclsByRoles(roleIds);
+    }
 }

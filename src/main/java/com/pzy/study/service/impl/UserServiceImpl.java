@@ -57,11 +57,11 @@ public class UserServiceImpl implements UserService {
                 mail(userVO.getMail()).
                 deptId(userVO.getDeptId()).
                 remark(userVO.getRemark()).
-                operator("admin").
-                operatorIp("127.0.0.1").
+                operator(RequestHolder.getCurrentUser().getUsername()).
+                operatorIp(IpAddressUtil.getIpAdrress(RequestHolder.getCurrentRequest())).
                 build();
                 //加密
-                PasswordHelper.encryptPassword(userEntity);
+                PasswordHelper.setSaltAndEncryptPassword(userEntity);
                 userDAO.addUser(userEntity);
     }
 

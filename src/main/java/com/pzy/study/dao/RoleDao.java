@@ -3,6 +3,7 @@ package com.pzy.study.dao;
 import com.pzy.study.entity.RoleEntity;
 import com.pzy.study.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface RoleDao {
 
     List<RoleEntity> getAll();
 
-
+    List<RoleEntity> getRoleListByRoleIds(@Param("roleIds")List<Integer> roleIds);
 }

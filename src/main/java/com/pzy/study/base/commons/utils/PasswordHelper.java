@@ -19,9 +19,13 @@ public class PasswordHelper {
 
     public static final int HASHITERATIONS = 2;
 
-    public static void encryptPassword(UserEntity userEntity){
+    public static void setSaltAndEncryptPassword(UserEntity userEntity){
         userEntity.setSalt(randomNumberGenerator.nextBytes().toHex());
         String password = new SimpleHash(HASHALGORITHMNAME, userEntity.getPassword(), ByteSource.Util.bytes(userEntity.getSalt()), HASHITERATIONS).toHex();
         userEntity.setPassword(password);
+    }
+
+    public static String encryptAndGetPassword(String salt ,String password){
+       return new SimpleHash(HASHALGORITHMNAME, password, ByteSource.Util.bytes(salt), HASHITERATIONS).toHex();
     }
 }

@@ -24,4 +24,6 @@ public interface RoleService {
     List<AclModuleLevelEntity> roleAclTree(Integer roleId);
 
     Map<String, List<UserEntity>> roleUsers(Integer roleId);
+
+    List<RoleEntity> findRolesByUserId(Integer userId);
 }

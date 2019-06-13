@@ -1,7 +1,10 @@
 package com.pzy.study.service;
 import com.pzy.study.base.commons.utils.Result;
+import com.pzy.study.entity.AclEntity;
 import com.pzy.study.vo.AclVo;
 import com.pzy.study.vo.UserVo;
+
+import java.util.List;
 
 /**
  * Destription:
@@ -14,7 +17,9 @@ public interface AclService {
 
     void update(AclVo aclVO);
 
-    Result pageQueryUser(AclVo aclVO);
+    Result pageQueryAcl(AclVo aclVO);
 
     void changeRoleAcls(Integer roleId , String aclIds);
+
+    List<AclEntity> findAclsByRoleIds(List<Integer> roleIds);
 }

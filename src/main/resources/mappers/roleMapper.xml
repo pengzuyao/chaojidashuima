@@ -31,4 +31,11 @@
     </select>
 
 
+    <select id="getRoleListByRoleIds" resultMap="BaseResultMap" >
+        select * from sys_role t where t.id in
+        <foreach collection="roleIds" item="roleId" separator="," open="("  close=")" >
+            #{roleId}
+        </foreach>
+    </select>
+
 </mapper>
