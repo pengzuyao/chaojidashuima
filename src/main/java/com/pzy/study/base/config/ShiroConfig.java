@@ -1,15 +1,5 @@
 package com.pzy.study.base.config;
 
-import com.pzy.study.base.commons.utils.PasswordHelper;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Destription:
@@ -17,10 +7,10 @@ import java.util.Map;
  * Time: 2019-05-19
  */
 
-@Configuration
+/*@Configuration
 public class ShiroConfig {
 
-    /*@Bean
+    @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -62,5 +52,5 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashAlgorithmName(PasswordHelper.HASHALGORITHMNAME); //散列算法:这里使用MD5算法;
         hashedCredentialsMatcher.setHashIterations(PasswordHelper.HASHITERATIONS); //散列的次数
         return hashedCredentialsMatcher;
-    }*/
-}
+    }
+}*/

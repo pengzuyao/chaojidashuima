@@ -16,7 +16,7 @@ import java.security.SecureRandom;
  * @Author: pengzuyao
  * @Time: 2019/06/13
  */
-public class AESUtils {
+public class AESUtil {
 
 
     public static String encrypt(String encodeRules,String content){

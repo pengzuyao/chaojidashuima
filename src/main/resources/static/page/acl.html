@@ -452,7 +452,7 @@
                             id: aclModuleId
                         },
                         success: function (result) {
-                            if (result.ret) {
+                            if (result.code==200) {
                                 showMessage("删除权限模块[" + aclModuleName + "]", "操作成功", true);
                                 loadAclModuleTree();
                             } else {

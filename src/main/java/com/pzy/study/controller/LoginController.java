@@ -1,12 +1,13 @@
 package com.pzy.study.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
+import com.pzy.study.base.commons.constants.GlobalConstant;
 import com.pzy.study.base.commons.enums.LoginExceptionEnum;
 import com.pzy.study.base.commons.exceptions.LoginException;
-import com.pzy.study.base.commons.utils.AESUtils;
-import com.pzy.study.base.commons.utils.PasswordHelper;
-import com.pzy.study.base.commons.utils.RequestHolder;
+import com.pzy.study.base.commons.utils.*;
 import com.pzy.study.entity.AclEntity;
 import com.pzy.study.entity.RoleEntity;
 import com.pzy.study.entity.UserEntity;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -39,11 +41,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/water-cup")
 @Slf4j
 public class LoginController {
-
-    public final static String USER = "user";
-    public final static String USERNAME = "userName";
-    public final static String TIMESTAMP = "timestamp";
-
 
     @Value("aes.key")
     private String key;
@@ -57,8 +54,11 @@ public class LoginController {
     @Autowired
     private AclService aclService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @RequestMapping(value = "/sys/login")
-    public void login(@Valid UserEntity userEntity , HttpServletRequest request, HttpServletResponse response, BindingResult bindingResult){
+    public void login(@Valid UserEntity userEntity , HttpServletRequest request, HttpServletResponse response, BindingResult bindingResult)throws IOException{
         if (StringUtils.isAnyBlank(userEntity.getUsername() ,userEntity.getPassword())){
             throw new LoginException(LoginExceptionEnum.request_prarm);
         }
@@ -71,6 +71,9 @@ public class LoginController {
             throw new LoginException(LoginExceptionEnum.request_unVaild);
         }
         List<RoleEntity> rolesByUserId = roleService.findRolesByUserId(userInfo.getId());
+        //redisUtil.set(userEntity.getUsername() +":userRoles" , rolesByUserId);
+        //List<RoleEntity> roleEntities = (List<RoleEntity>) redisUtil.get(userEntity.getUsername() + ":userRoles");
+        //log.info("redis用户角色信息：{}" ,roleEntities);
         if (rolesByUserId.isEmpty()){
             throw new LoginException(LoginExceptionEnum.request_noRoles);
         }
@@ -80,24 +83,22 @@ public class LoginController {
             throw new LoginException(LoginExceptionEnum.request_noAcls);
         }
         //登录成功
-        request.getSession().setAttribute(USER ,userEntity);
+        long time = System.currentTimeMillis();
+        Map<String ,Object> map = Maps.newHashMap();
+        map.put(GlobalConstant.TIMESTAMP,time);
+        map.put(GlobalConstant.USER_NAME , userInfo);
+        String content = JSON.toJSONString(map);
+        String token = AESUtil.encrypt(key, content);
+        //redisUtil.del(userEntity.getUsername());
+        //redisUtil.expire(userEntity.getUsername() , token ,1800);
+        request.getSession().setAttribute(GlobalConstant.USER_TOKEN ,token);
         request.getSession().setMaxInactiveInterval(1800);
-        long time = Calendar.getInstance().getTimeInMillis();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(TIMESTAMP ,time);
-        jsonObject.put(userEntity.getUsername() , userEntity);
-        String content = jsonObject.toJSONString();
-        String token = AESUtils.encrypt(key, content);
-        log.info("{}" ,token);
-        Cookie cookieName = new Cookie(USERNAME ,userEntity.getUsername());
-        Cookie cookieToken = new Cookie(userEntity.getUsername() ,token);
+        log.info("登录token信息：{}" ,token);
+        Cookie cookieName = new Cookie(GlobalConstant.USER_NAME , userEntity.getUsername());
+        Cookie cookieToken = new Cookie(GlobalConstant.USER_TOKEN ,token);
         response.addCookie(cookieName);
         response.addCookie(cookieToken);
-        try {
-            response.sendRedirect("/water-cup/main");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("/water-cup/main");
     }
 
     @RequestMapping(value = "/main" ,method = RequestMethod.GET)
@@ -111,17 +112,20 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout" ,method = RequestMethod.GET)
-    public String logout(HttpServletRequest request ,HttpServletResponse response){
-        //TODO:清除session、cookie、redis信息
-        request.getSession().removeAttribute(USER);
+    public void logout(HttpServletRequest request ,HttpServletResponse response) throws IOException{
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
-            if(cookie.getName().equals(TIMESTAMP) ||
-               cookie.getName().equals(RequestHolder.getCurrentUser().getUsername())){
+            if(GlobalConstant.USER_NAME.equals(cookie.getName())){
                cookie.setMaxAge(0);
                response.addCookie(cookie);
+               redisUtil.del(cookie.getValue());
+            }
+            if (GlobalConstant.USER_TOKEN.equals(cookie.getName())){
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
             }
         }
-        return "login";
+        RequestHolder.remove();
+        response.sendRedirect("/water-cup/login");
     }
 }
