@@ -1,13 +1,12 @@
 package com.pzy.study.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.cache.GuavaCache;
 import com.pzy.study.base.commons.enums.LoginExceptionEnum;
 import com.pzy.study.base.commons.exceptions.LoginException;
 import com.pzy.study.base.commons.utils.AESUtils;
 import com.pzy.study.base.commons.utils.PasswordHelper;
+import com.pzy.study.base.commons.utils.RequestHolder;
 import com.pzy.study.entity.AclEntity;
 import com.pzy.study.entity.RoleEntity;
 import com.pzy.study.entity.UserEntity;
@@ -40,6 +39,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/water-cup")
 @Slf4j
 public class LoginController {
+
+    public final static String USER = "user";
+    public final static String USERNAME = "userName";
+    public final static String TIMESTAMP = "timestamp";
+
 
     @Value("aes.key")
     private String key;
@@ -76,16 +80,16 @@ public class LoginController {
             throw new LoginException(LoginExceptionEnum.request_noAcls);
         }
         //登录成功
-        request.getSession().setAttribute("user" ,userEntity);
+        request.getSession().setAttribute(USER ,userEntity);
         request.getSession().setMaxInactiveInterval(1800);
         long time = Calendar.getInstance().getTimeInMillis();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("timestamp" ,time);
+        jsonObject.put(TIMESTAMP ,time);
         jsonObject.put(userEntity.getUsername() , userEntity);
         String content = jsonObject.toJSONString();
         String token = AESUtils.encrypt(key, content);
         log.info("{}" ,token);
-        Cookie cookieName = new Cookie("userName" ,userEntity.getUsername());
+        Cookie cookieName = new Cookie(USERNAME ,userEntity.getUsername());
         Cookie cookieToken = new Cookie(userEntity.getUsername() ,token);
         response.addCookie(cookieName);
         response.addCookie(cookieToken);
@@ -94,7 +98,6 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //return "redirect:/water-cup/main";
     }
 
     @RequestMapping(value = "/main" ,method = RequestMethod.GET)
@@ -106,5 +109,19 @@ public class LoginController {
     public String login(){
         return "login";
     }
-    
+
+    @RequestMapping(value = "/logout" ,method = RequestMethod.GET)
+    public String logout(HttpServletRequest request ,HttpServletResponse response){
+        //TODO:清除session、cookie、redis信息
+        request.getSession().removeAttribute(USER);
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if(cookie.getName().equals(TIMESTAMP) ||
+               cookie.getName().equals(RequestHolder.getCurrentUser().getUsername())){
+               cookie.setMaxAge(0);
+               response.addCookie(cookie);
+            }
+        }
+        return "login";
+    }
 }
