@@ -2,6 +2,7 @@ package com.pzy.study.base.commons.handlers;
 
 import com.pzy.study.base.commons.exceptions.LoginException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 @ControllerAdvice
 @Controller
+@Order(99)
 @Slf4j
 public class LoginExceptionController {
 
