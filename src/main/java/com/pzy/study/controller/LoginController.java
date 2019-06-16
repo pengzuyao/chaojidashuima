@@ -71,7 +71,7 @@ public class LoginController {
             throw new LoginException(LoginExceptionEnum.request_unVaild);
         }
         List<RoleEntity> rolesByUserId = roleService.findRolesByUserId(userInfo.getId());
-        //redisUtil.set(userEntity.getUsername() +":userRoles" , rolesByUserId);
+        redisUtil.set(userEntity.getUsername() +":userRoles" , rolesByUserId);
         //List<RoleEntity> roleEntities = (List<RoleEntity>) redisUtil.get(userEntity.getUsername() + ":userRoles");
         //log.info("redis用户角色信息：{}" ,roleEntities);
         if (rolesByUserId.isEmpty()){
